@@ -74,23 +74,44 @@ def dataset2path(dataset_name):
 
 # !pip install numpy==1.25.2
 
-# choose the dataset path in the dropdown on the right and rerun this cell
-# to see multiple samples
-
-# utokyo_saytap: unitree_a1, action
-# berkeley_mvp: franka, obs/hand_image
-dataset = 'utokyo_saytap_converted_externally_to_rlds'
-display_key = 'action'
+# set params
 num_load_episode = 10
 traj_idx = 0
-xml_scene_path = './mujoco_menagerie/unitree_a1/scene.xml'
 
+# TOTO Benchmark
+# dataset = 'toto'
+# display_key = 'image'
+# xml_scene_path = './mujoco_menagerie/franka_fr3/scene.xml'
+
+# Saytap
+# dataset = 'berkeley_mvp_converted_externally_to_rlds'
+# display_key = 'image'
+# xml_scene_path = './mujoco_menagerie/ufactory_xarm7/scene.xml'
+
+# Berkeley MVP Data
+# display_key = 'hand_image'
+dataset = 'berkeley_mvp_converted_externally_to_rlds'
+xml_scene_path = './mujoco_menagerie/ufactory_xarm7/scene.xml'
+
+# Berkeley RPT Data
+# display_key = 'hand_image'
+# dataset = 'berkeley_rpt_converted_externally_to_rlds'
+# xml_scene_path = './mujoco_menagerie/franka_fr3/scene.xml'
 
 b = tfds.builder_from_directory(builder_dir=dataset2path(dataset))
 ds = b.as_dataset(split = f'train[:{num_load_episode}]')
 episode_list = [next(iter(ds)) for i in range(num_load_episode)]
 
-traj_list = [[step['action'] for step in episode['steps']] for episode in episode_list]
+# TOTO Benchmark
+# traj_list = [[step['observation']['joint_pos'] for step in episode['steps']] for episode in episode_list]
+
+# Saytap
+# traj_list = [[step['action'] for step in episode['steps']] for episode in episode_list]
+
+# Berkeley MVP Data
+traj_list = [[step['observation']['joint_pos'] for step in episode['steps']] for episode in episode_list]
+# Berkeley RPT Data
+traj_list = [[step['observation']['joint_pos'] for step in episode['steps']] for episode in episode_list]
 
 print(traj_list[traj_idx])
 print(len(traj_list))
