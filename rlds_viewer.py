@@ -79,9 +79,9 @@ num_load_episode = 10
 traj_idx = 0
 
 # TOTO Benchmark
-# dataset = 'toto'
+dataset = 'toto'
 # display_key = 'image'
-# xml_scene_path = './mujoco_menagerie/franka_fr3/scene.xml'
+xml_scene_path = './mujoco_menagerie/franka_fr3/scene.xml'
 
 # Saytap
 # dataset = 'berkeley_mvp_converted_externally_to_rlds'
@@ -90,8 +90,8 @@ traj_idx = 0
 
 # Berkeley MVP Data
 # display_key = 'hand_image'
-dataset = 'berkeley_mvp_converted_externally_to_rlds'
-xml_scene_path = './mujoco_menagerie/ufactory_xarm7/scene.xml'
+# dataset = 'berkeley_mvp_converted_externally_to_rlds'
+# xml_scene_path = './mujoco_menagerie/ufactory_xarm7/scene.xml'
 
 # Berkeley RPT Data
 # display_key = 'hand_image'
@@ -103,15 +103,16 @@ ds = b.as_dataset(split = f'train[:{num_load_episode}]')
 episode_list = [next(iter(ds)) for i in range(num_load_episode)]
 
 # TOTO Benchmark
-# traj_list = [[step['observation']['joint_pos'] for step in episode['steps']] for episode in episode_list]
+traj_list = [[step['observation']['state'] for step in episode['steps']] for episode in episode_list]
 
 # Saytap
 # traj_list = [[step['action'] for step in episode['steps']] for episode in episode_list]
 
 # Berkeley MVP Data
-traj_list = [[step['observation']['joint_pos'] for step in episode['steps']] for episode in episode_list]
+# traj_list = [[step['observation']['joint_pos'] for step in episode['steps']] for episode in episode_list]
+
 # Berkeley RPT Data
-traj_list = [[step['observation']['joint_pos'] for step in episode['steps']] for episode in episode_list]
+# traj_list = [[step['observation']['joint_pos'] for step in episode['steps']] for episode in episode_list]
 
 print(traj_list[traj_idx])
 print(len(traj_list))
